@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>记事本</h2>
+            <div class="form-group">
+                <button class="createBtn btn btn-primary">新建</button>
+                <button class="saveBtn btn btn-primary">保存</button>
+                <button class="resumeBtn btn btn-success">恢复</button>
+                <select name="ver" id="" class="form-group">
+                  <option value="-1">选择笔记</option>
+                </select>
+            </div>
+            <div class="note">
+
+                <div class="form-group"><input type="text" class="title form-control"></div>
+                <div class="form-group"><textarea name="" id="" cols="30" rows="10" class="content form-control"></textarea></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        /**
+         * 1.打开页面时，读取cookie是否有note
+         *    有，显示第一篇笔记
+         *    没有，初始化第一篇笔记
+         * 2.点击保存 更新notes
+         * 3.点击恢复，根据当前打开的笔记id 还原数据
+         * 4.新建笔记，根据笔记数量生成id 
+         * 
+         */
+        var notes;
+        var currentNote;
+        var jsonStr = $.cookie('notes')
+        if (jsonStr) {
+            notes = JSON.parse(jsonStr)
+        }
+        if (notes && notes.length > 0) {
+            currentNote = notes[0]
+            console.log(currentNote)
+            $('.title').val(currentNote.title)
+            $('.content').val(currentNote.content)
+            notes.forEach(e => {
+                var opt = `<option value="${e.id}">${e.title}</option>`
+                $('select').append(opt)
+            });
+        } else {
+            currentNote = {
+                'id': 0,
+                'title': '',
+                'content': ''
+            }
+            notes = [];
+            notes.push(currentNote)
+            var str = JSON.stringify(notes)
+            $.cookie('notes', str, {
+                expires: 7
+            })
+        }
+        $('.createBtn').click(function() {
+            $('.title').val('');
+            $('.content').val('');
+            currentNote = {
+                id: notes.length
+            }
+        })
+        $('.saveBtn').click(function() {
+            var t = $('.title').val();
+            var c = $('.content').val();
+            currentNote.title = t;
+            currentNote.content = c;
+            notes[currentNote.id] = currentNote;
+            var jsonStr = JSON.stringify(notes)
+            $('select').html(`<option value="-1">选择笔记</option>`);
+            notes.forEach((e, i) => {
+                var opt = `<option ${i==currentNote.id?"selected":''} value="${e.id}">${e.title}</option>`
+                $('select').append(opt)
+            });
+            $.cookie('notes', jsonStr)
+                //JSON.stringify(notes)转化json
+                // $.cookie('title', t, {
+                //         expires: 7
+                //     }) //7天
+                // $.cookie('content', c, {
+                //     expires: 7
+                // })
+
+        })
+        $('.resumeBtn').click(function() {
+            // var t = $.cookie('title')
+            // var c = $.cookie('content')
+            $('.title').val(currentNote.title);
+            $('.content').val(currentNote.content);
+        })
+        $('select').change(function() {
+            if ($(this).val() != -1) {
+                currentNote = notes[$(this).val()]
+            }
+            $('.title').val(currentNote.title)
+            $('.content').val(currentNote.content)
+        })
+    </script>
+</body>
+
+</html>

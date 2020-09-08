@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>输出变量
+        <%=foo%>
+    </div>
+    <div>运行js代码
+        <% console.log('ejs运行js代码')%>
+    </div>
+    <div> 显示html包括link，script
+        <%- foo%>
+    </div>
+    <div>注释#
+        <%# 这是一条ejs注释 %>
+    </div>
+    <div>特殊符号html&lt;&gt;&copy;</div>
+    <div>ejs 输出
+        <%% </div>
+    <div>js高级用法 逻辑判断 for循环</div>
+    <div>
+        <% if(status==1){ %>
+            <span style="color:green">启用</span>
+            <% }else{ %>
+                <span style="color:red">禁用</span>
+                <% } %>
+    </div>
+    <div> include 包含页面头部 可以传参 同render
+        <%- include('header',{title:'标题'})%>
+    </div>
+</body>
+
+</html>

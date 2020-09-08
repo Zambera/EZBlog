@@ -1,0 +1,192 @@
+body,
+html {
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    background: #dce9e0;
+    font-family: "Source Sans Pro", "Hiragino Sans GB", "Microsoft Yahei", SimSun, Helvetica, Arial, Sans-serif, monospace;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+.navbar {
+    background: #1199c4;
+    border-radius: 0;
+    z-index: 10002;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+}
+
+.navbar-default .navbar-brand:hover {
+    color: white;
+}
+
+.glyphicon-home {
+    margin-right: 5px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: white;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    color: white;
+    background: #17b2e2;
+}
+
+.search-input {
+    border-radius: 17px;
+}
+
+.search-group {
+    position: relative;
+}
+
+.glyphicon-search {
+    position: absolute;
+    color: #5d6a72;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+.top {
+    padding: 0;
+    height: 50px;
+}
+
+.container {
+    height: 3000px;
+    box-shadow: 0 0 10px #17b2e2;
+    background: #dde6e9;
+    /* overflow: hidden; */
+}
+
+.left {
+    padding: 0;
+    position: relative;
+    height: 100%;
+}
+
+.mainarea {
+    height: 100%;
+}
+
+.my_avater {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    transition: all linear 0.5s;
+}
+
+.my_avater:hover {
+    border: 8px solid #58666e;
+    transform: scale(1.1) rotate(360deg);
+}
+
+.avater {
+    text-align: center;
+    padding-top: 5px;
+}
+
+.avater .motto {
+    color: #5d6a72;
+}
+
+.nav-list {
+    position: relative;
+    width: 100%;
+    text-align: left;
+    /* overflow: hidden; */
+    /* height: 600px; */
+}
+
+.nav-list dt {
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: lighter;
+}
+
+.nav-list dd {
+    position: relative;
+    margin-left: -15px;
+    color: #58666e;
+    text-indent: 20px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.glyphicon-menu-right {
+    position: absolute;
+    right: 5px;
+    top: 12px;
+}
+
+.nav-list dd:hover {
+    background: #d2dadd;
+}
+
+#afterLogin {
+    display: none;
+}
+
+.bottom-func {
+    position: absolute;
+    bottom: 55px;
+    /* overflow: hidden; */
+    padding: 5px;
+    color: #58666e;
+    text-align: center;
+    background-color: #f3f5f6;
+}
+
+.art-iframe {
+    position: relative;
+    top: 2px;
+    /* overflow: hidden; */
+}
+
+.embed-responsive-item {
+    width: 100%;
+    border: none;
+    position: absolute;
+    left: none;
+    right: -20px !important;
+    top: 0;
+    bottom: 0;
+    /* overflow-x: hidden;
+    overflow-y: scroll; */
+}
+
+.bold {
+    font-weight: bolder !important;
+}
+
+body {
+    position: relative;
+}
+
+.conpart {
+    font-weight: bold;
+    color: coral;
+    position: absolute;
+    z-index: 9999;
+}
+
+.login_regis {
+    text-align: center;
+    width: 260px;
+    padding: 10px 20px;
+}
+
+.login_regis button {
+    min-width: 60px;
+}

@@ -1,0 +1,47 @@
+.main {
+    margin-top: 5px;
+}
+
+.articles li {
+    margin: 10px 0;
+    list-style: none;
+    height: 200px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.art_content {}
+
+.edit {
+    display: none;
+}
+
+.toolbar {
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.text {
+    border-radius: 5px;
+    background: #fff;
+    border: 1px solid #ccc;
+    min-height: 400px;
+}
+
+.func {
+    position: fixed;
+    right: 50px;
+    bottom: 10%
+}
+
+.func li {
+    list-style: none;
+    font-size: 40px;
+}
+
+#houtai {
+    display: none;
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部门列表</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/layx.min.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/layx.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>部门列表</h2>
+            <form action="" method="post" class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="dname" id="" placeholder="请输入关键字">
+                    <input type="button" class="btn btn-primary" id="searchBtn" value="搜索">
+                    <input type="button" id="addBtn" class="btn btn-success" value="新增">
+                    <input type="button" id="removeBtn" class="btn btn-success" value="批量删除">
+                </div>
+            </form>
+            <table class="table">
+                <tr>
+                    <th>部门编号 <input type="checkbox" name="" id='' class="all"></th>
+                    <th>部门名</th>
+                    <th>部门位置</th>
+                    <th>操作</th>
+                </tr>
+
+
+            </table>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            function search(key) {
+                $.getJSON('/depts/list.json', {
+                    dname: key
+                }, function(r) {
+                    if (r.code == 1) {
+                        $('table tr:first~').remove();
+                        r.data.forEach(e => {
+                            var str = `
+                    <tr>
+                        <td>
+                          <input type="checkbox" name="" id='' class="sel">
+                          ${e.deptno}</td>
+                        <td>${e.dname}</td>
+                        <td>${e.loc}</td>
+                        <td>
+                          <a href="javascript:;" class="btn edit btn-primary" data-deptno=${e.deptno}>修改</a>
+                          <a href="javascript:;" class="del btn btn-danger" data-deptno=${e.deptno}>删除</a>
+                        </td>
+                      </tr>
+                    `; ///depts/del?deptno=<%=list[i].deptno%>
+                            $('table').append($(str))
+                        });
+                    } else {
+                        alert('没有数据');
+                    }
+                });
+                $('.all').click(function() {
+                    $('table td :checkbox').prop('checked', $('.all').prop('checked'));
+                });
+                $('.sel').on({
+                    click: function() {
+                        $('.all').prop('checked', $('.sel:checked').length == $('.sel').length)
+                    }
+                })
+                $('table').on('change', '.sel', function() {
+                    $('.all').prop('checked', $('.sel:checked').length == $('.sel').length)
+                });
+            }
+            $('#searchBtn').click(function() {
+                var key = $('[name=dname]').val();
+                search(key);
+            });
+            $('#addBtn').click(function() {
+                layx.open({
+                    id: 'addDept',
+                    title: '新增部门',
+                    type: 'url',
+                    url: '/depts/add',
+                    width: 800,
+                    height: 500,
+                    position: 'cc'
+                })
+            })
+            $('#removeBtn').click(function() {
+                var clist = [];
+                $('.sel:checked').each(function(i, e) {
+                    clist.push($(this).parent().text().trim())
+                })
+                layx.confirm(null, "确认删除?", function(id) {
+                    console.log('你点击了确定');
+                    layx.destroy(id);
+                    $.getJSON('/depts/remove.json', {
+                        list: clist
+                    }, function(r) {
+                        if (r.code == 1) {
+                            layx.msg(r.msg);
+                        } else {
+                            layx.msg(r.msg);
+                        }
+                        search('');
+                    })
+                });
+            })
+            $('table').on('click', '.del', function(e) {
+                var deptno = $(this).attr('data-deptno');
+                layx.confirm(null, "确认删除?", function(id) {
+                    layx.destroy(id);
+                    $.getJSON('/depts/del.json', {
+                        deptno: deptno
+                    }, function(r) {
+                        if (r.code == 1) {
+                            layx.msg(r.msg);
+                        } else {
+                            layx.msg(r.msg);
+                        }
+                        search('');
+                    })
+                });
+                e.stopPropagation();
+            })
+            $('table').on('click', '.edit', function(e) {
+                var deptno = $(this).attr('data-deptno');
+                layx.iframe('updateDept', '修改部门', '/dept/update.html?deptno=' + deptno, {
+                    position: 'cc',
+                    width: 800,
+                    height: 600
+                })
+
+                e.stopPropagation();
+            })
+            search('');
+        })
+    </script>
+</body>
+
+</html>

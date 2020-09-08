@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>员工列表</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h2>员工列表</h2>
+            <form action="" method="post" class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="ename" id="" placeholder="请输入关键字">
+                    <button class="btn btn-primary" id="searchBtn" onclick="return false">搜索</button>
+                    <input type="button" onclick="location.href='/addEmp.html'" class="btn btn-success" value="新增">
+                </div>
+            </form>
+            <table class="table">
+                <tr>
+                    <th>员工编号 <input type="checkbox" name="" id='' class="all"></th>
+                    <th>员工名</th>
+                    <th>员工职位</th>
+                    <th>入职日期</th>
+                    <th>员工薪水</th>
+                    <th>操作</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        $(function() {
+            //{code:1,data[{dname,loc},{dname,loc}]}
+
+
+            function search(key) {
+                $.getJSON('/emps/list.json', {
+                    ename: key
+                }, function(r) {
+                    if (r.code == 1) {
+                        $('table tr:first~').remove();
+                        r.data.forEach(e => {
+                            var str = `
+                    <tr>
+                        <td>
+                          <input type="checkbox" name="" id='' class="sel">
+                          ${e.empno}</td>
+                        <td>${e.ename}</td>
+                        <td>${e.job}</td>
+                        <td>${e.hiredate}</td>
+                        <td>${e.sal}</td>
+                        <td>
+                          <a href="/depts/update?deptno=<%=list[i].deptno%>" class="btn btn-primary">修改</a>
+                          <a href="/depts/del?deptno=<%=list[i].deptno%>" onclick="return confirm('确认删除')" class="btn btn-danger">删除</a>
+                        </td>
+                      </tr>
+                    `;
+                            $('table').append($(str))
+                        });
+                    } else {
+                        alert('没有数据');
+                    }
+                });
+                $('.all').click(function() {
+                    $('table td :checkbox').prop('checked', $('.all').prop('checked'));
+                });
+                $('.sel').on({
+                    click: function() {
+                        $('.all').prop('checked', $('.sel:checked').length == $('.sel').length)
+                    }
+                })
+                $('table').on('change', '.sel', function() {
+                    $('.all').prop('checked', $('.sel:checked').length == $('.sel').length)
+                });
+            }
+            $('#searchBtn').click(function() {
+                var key = $('[name=ename]').val();
+                search(key);
+            });
+            search('');
+            // $.getJSON({
+            //     url: '/depts/list',
+            //     method: 'get',
+            //     success: function(r) {
+
+            //     },
+            //     error: function() {
+            //         console.log('异步请求失败');
+            //     }
+            // })
+
+        })
+    </script>
+</body>
+
+</html>

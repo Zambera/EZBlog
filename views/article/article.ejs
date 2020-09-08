@@ -1,0 +1,117 @@
+<%- include('../navbar')%>
+    <div class="row mainarea">
+        <%- include('../left')%>
+            <div class="main col-md-8">
+                <ol class="breadcrumb">
+                    <li><a href="/home">首页</a></li>
+                    <li><a href="/home">文章列表</a></li>
+                    <li class="active">
+                        <%-  data[0].article_title%>
+                    </li>
+                </ol>
+                <!-- <button class="btn pull-right">发表</button> -->
+                <div class="artcontent">
+                    <p class="h2">
+                        <%- data[0].article_title%>
+                    </p>
+                    <p>
+                        <%- data[0].article_content%>
+                    </p>
+
+                </div>
+                <div class="info">
+                    <p>
+                        <span>浏览量<%= data[0].article_views%></span>
+                        <span>点赞数<%= data[0].article_like_count%></span>
+                        <span>评论数<%= data[0].article_comment_count%></span>
+                    </p>
+                    <form action="/comment" method="post">
+                        <textarea placeholder="请在此处写下您的留言..." class="form-control" style="resize: none;" name="com" id="com" cols="30" rows="5"></textarea>
+                        <input type="button" id="comment" class="btn" value="发表">
+                    </form>
+                </div>
+                <div class="comment_list">
+                    <ul style="list-style: none;">
+                        <% if(comm){%>
+                            <% for(var i=comm.length-1;i>=0;i--){%>
+                                <li style="height: 100px;box-shadow: 0 0 10px #cccccc;border-radius: 15px;margin-top: 15px;padding: 5px;">
+                                    <img style="width: 50px;float: left;" src="<%= comm[i].user_profile_photo%>" alt="">
+                                    <p>
+                                        <%= comm[i].user_nickname%>
+                                    </p>
+                                    <p>
+                                        <%= comm[i].comment_content%>
+                                    </p>
+                                    <p style="font-size: 12px;color: gray;float: right;">
+                                        <%= comm[i].comment_date%>
+                                    </p>
+                                </li>
+                                <%}%>
+                                    <%}%>
+                    </ul>
+                </div>
+            </div>
+            <!-- 
+            <div class="art-iframe embed-responsive embed-responsive-16by9">
+                <iframe scrolling='auto' class="embed-responsive-item" src="./inner.html"></iframe>
+            </div> -->
+
+    </div>
+    <div class="func">
+        <ul>
+            <li title="点个赞">
+                <a href="/articles/like?aid=<%= data[0].article_id%>">
+
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-dianzan"></use>
+                  </svg></a>
+            </li>
+            <li id="houtai" title="后台管理">
+                <a href="/houtai">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-houtaishezhi"></use>
+                  </svg>
+                </a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    </div>
+    <script>
+        var user;
+        if ($.cookie('user')) {
+            user = JSON.parse($.cookie('user'))
+            $('#beforeLogin').css('display', 'none')
+            $('#afterLogin').css('display', 'block')
+            $('.remember').prop('checked', true)
+            $('.my_avater').prop('src', user.user_profile_photo)
+            $('.user_info h4').text(user.user_nickname)
+        }
+        if (user.user_id == 0) {
+            $('#houtai').css('display', 'block')
+        }
+        $('#comment').click(function() {
+            var comments = $('#com').val()
+            $.ajax({
+                url: '/comment',
+                method: 'post',
+                data: {
+                    comments: comments,
+                    user_id: user.user_id,
+                    article_id: '<%= data[0].article_id%>'
+                },
+                success: function(r) {
+                    console.log(r);
+                    $('#com').val('')
+                    location.reload()
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+
+            })
+        })
+    </script>
+    </body>
+
+    </html>

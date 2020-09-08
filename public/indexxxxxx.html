@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOG</title>
+    <link rel="shortcut icon" href="/qieee.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bindex.css">
+    <link rel="stylesheet" href="/css/content.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row nav-row">
+            <div class="top col-md-12">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand bold" href="#">
+                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> QI_EEE's Blog</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <form class="navbar-form navbar-left">
+                                <div class="form-group search-group">
+                                    <input type="text" class="form-control search-input" placeholder="输入关键词搜索...">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </div>
+                            </form>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <a href="#">
+                                        <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                                <li class="dropdown" id="beforeLogin">
+                                    <a href="#" class="dropdown-toggle dropinfo" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录 <span class="caret"></span></a>
+                                    <!-- <div class="row"> -->
+                                    <ul class="login_regis dropdown-menu">
+                                        <form method="POST">
+                                            <div class="form-group">
+                                                <!-- <label for="exampleInputEmail1">Email address</label> -->
+                                                <input type="text" class="form-control" name="username" id="exampleInputEmail1" placeholder="Username">
+                                            </div>
+                                            <div class="form-group">
+                                                <!-- <label for="exampleInputPassword1">Password</label> -->
+                                                <input type="password" class="form-control" name="userpwd" id="exampleInputPassword1" placeholder="Password">
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox" name="remember"> 记住
+                                                  </label>
+                                            </div>
+                                            <button type="button" onclick="location.href='/users/register'" class="regisBtn btn btn-default">注册</button>
+                                            <button type="button" class="btn btn-default loginBtn">登录</button>
+                                        </form>
+                                    </ul>
+                                    <!-- </div> -->
+                                </li>
+                                <li class="dropdown" id="afterLogin">
+                                    <a href="#" class="dropdown-toggle dropinfo" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人 <span class="caret"></span></a>
+                                    <!-- <div class="row"> -->
+                                    <ul class="userInfo dropdown-menu">
+                                        <li><a href="#">个人资料</a></li>
+                                        <li><a href="#">我的发布</a></li>
+                                        <li><a href="#">我的消息</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#" class="logout">退出登录</a></li>
+                                    </ul>
+                                    <!-- </div> -->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="row mainarea">
+            <div class="left col-md-2">
+                <div class="nav-list">
+                    <div class="avater user_info">
+                        <img class="my_avater" src="/images/QI_EEE.png" alt="">
+                        <h4 class="bold">QI_EEE</h4>
+                        <p class="motto">Stay hungry，stay foolish</p>
+                    </div>
+                    <dl>
+                        <dt>导航</dt>
+                        <dd>
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> 首页
+                        </dd>
+                        <dd> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>文件</dd>
+                        <dd> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>视频</dd>
+                        <dd> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>KMS</dd>
+                        <dd> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>Aria2</dd>
+                    </dl>
+                    <dl>
+                        <dt>组成</dt>
+                        <dd>
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> 分类
+                            <span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span>
+                        </dd>
+                        <dd>
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> 分类
+                            <span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span>
+                        </dd>
+                        <dd>
+                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> 分类
+                            <span class="glyphicon glyphicon-menu-right pull-right" aria-hidden="true"></span>
+                        </dd>
+
+                    </dl>
+                </div>
+                <div class="bottom-func col-md-12">
+                    <div class="bottom-span col-md-4">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        <span>管理</span>
+                    </div>
+                    <div class="bottom-span col-md-4">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        <span>管理</span>
+                    </div>
+                    <div class="bottom-span col-md-4">
+                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        <span>管理</span>
+                    </div>
+                </div>
+            </div>
+            <div class="main col-md-8">
+                <ol class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li class="active">Data</li>
+                </ol>
+                <!-- <button class="btn pull-right">发表</button> -->
+                <ul class="articles">
+                    <li>
+                        <h4 class="art_title">文章标题</h4>
+                        <p class="art_content">文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容</p>
+                        <p class="art_status">发表时间点赞评论浏览数</p>
+                    </li>
+                </ul>
+            </div>
+            <!-- 
+            <div class="art-iframe embed-responsive embed-responsive-16by9">
+                <iframe scrolling='auto' class="embed-responsive-item" src="./inner.html"></iframe>
+            </div> -->
+
+        </div>
+    </div>
+    </div>
+    <script>
+        $('.loginBtn').click(function() {
+            var username = $('[name=username]').val()
+            var userpwd = $('[name=userpwd]').val()
+            if (username.trim() != '' && userpwd.trim() != '') {
+
+                $.ajax({
+                    url: '/users/login',
+                    method: 'post',
+                    data: {
+                        username: username,
+                        userpwd: userpwd
+                    },
+                    success: function(r) {
+                        if (r.code == 1) {
+                            $('#beforeLogin').css('display', 'none')
+                            $('#afterLogin').css('display', 'block')
+                            $('.user_info h4').text(r.data.user_nickname)
+                        }
+
+                    },
+                    error: function(e) {
+                        console.log(e);
+                        console.log('异步请求失败');
+                    }
+                })
+            }
+        })
+        $('.logout').click(function() {
+            $('#beforeLogin').css('display', 'block')
+            $('#afterLogin').css('display', 'none')
+        })
+        var coun = ['富强', '民主', '文明', '和谐', '自由', '平等', '公正', '法治', '爱国', '敬业', '诚信', '友善'];
+        $('document,html').on({
+            click: function(e) {
+                var span = $('<span></span>')
+                span.html(coun[parseInt(Math.random() * 16)]);
+                span.addClass('conpart')
+                $('body').append(span);
+                $('.conpart').css({
+                    top: e.clientY,
+                    left: e.clientX
+                })
+                $('.conpart').animate({
+                    top: e.clientY - 50,
+                    opacity: 0
+                }, 500)
+                setTimeout(() => {
+                    $('.compart').remove()
+                }, 1000);
+            }
+        })
+    </script>
+</body>
+
+</html>

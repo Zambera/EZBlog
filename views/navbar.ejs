@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLOG</title>
+    <link rel="shortcut icon" href="/qieee.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bindex.css">
+    <link rel="stylesheet" href="/css/content.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/images/icon/iconfont.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row nav-row">
+            <div class="top col-md-12">
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <a class="navbar-brand bold " href="/home">
+                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> QI_EEE's Blog</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <form class="navbar-form navbar-left">
+                                <div class="form-group search-group">
+                                    <input type="text" class="form-control search-input" placeholder="输入关键词搜索...">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </div>
+                            </form>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <a href="#">
+                                        <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                                <li class="dropdown" id="beforeLogin">
+                                    <a href="#" class="dropdown-toggle dropinfo" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录 <span class="caret"></span></a>
+                                    <!-- <div class="row"> -->
+                                    <ul class="login_regis dropdown-menu">
+                                        <form method="POST">
+                                            <div class="form-group">
+                                                <!-- <label for="exampleInputEmail1">Email address</label> -->
+                                                <input type="text" class="form-control" name="username" id="exampleInputEmail1" placeholder="Username">
+                                            </div>
+                                            <div class="form-group">
+                                                <!-- <label for="exampleInputPassword1">Password</label> -->
+                                                <input type="password" class="form-control" name="userpwd" id="exampleInputPassword1" placeholder="Password">
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label>
+                                          <input type="checkbox" class="remember" name="remember"> 记住
+                                        </label>
+                                            </div>
+                                            <button type="button" onclick="location.href='/users/register'" class="regisBtn btn btn-default">注册</button>
+                                            <button type="button" class="btn btn-default loginBtn">登录</button>
+                                        </form>
+                                    </ul>
+                                    <!-- </div> -->
+                                </li>
+                                <li class="dropdown" id="afterLogin">
+                                    <a href="#" class="dropdown-toggle dropinfo" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人 <span class="caret"></span></a>
+                                    <!-- <div class="row"> -->
+                                    <ul class="userInfo dropdown-menu">
+                                        <li><a href="#">个人资料</a></li>
+                                        <li><a href="#">我的发布</a></li>
+                                        <li><a href="#">我的消息</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#" class="logout">退出登录</a></li>
+                                    </ul>
+                                    <!-- </div> -->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <script>
+            var user;
+            if ($.cookie('user')) {
+                user = JSON.parse($.cookie('user'))
+                $('#beforeLogin').css('display', 'none')
+                $('#afterLogin').css('display', 'block')
+                $('.remember').prop('checked', true)
+                $('.my_avater').prop('src', user.user_profile_photo)
+                $('.user_info h4').text(user.user_nickname)
+            }
+
+            $('.loginBtn').click(function() {
+                var url;
+                var username = $('[name=username]').val()
+                var userpwd = $('[name=userpwd]').val()
+                console.log(1111);
+                if (username.trim() != '' && userpwd.trim() != '') {
+                    console.log($('.remember').prop('checked'));
+                    url = '/login'
+                    $.ajax({
+                        url: url,
+                        method: 'post',
+                        data: {
+                            username: username,
+                            userpwd: userpwd
+                        },
+                        success: function(r) {
+                            if (r.code == 1) {
+                                $('#beforeLogin').css('display', 'none')
+                                $('#afterLogin').css('display', 'block')
+                                $('.user_info h4').text(r.data.user_nickname)
+                                $('.my_avater').attr('src', r.data.user_profile_photo)
+                            }
+
+                        },
+                        error: function(e) {
+                            console.log(e);
+                            console.log('异步请求失败');
+                        }
+                    })
+                }
+            })
+            if (user) {
+                $(`[data-aid=${user.user_id}]`).css('display', 'block')
+            }
+            $('.logout').click(function() {
+
+                $('#beforeLogin').css('display', 'block')
+                $('#afterLogin').css('display', 'none')
+                $.removeCookie('user', {
+                    path: '/'
+                })
+                location.href = '/'
+            })
+        </script>

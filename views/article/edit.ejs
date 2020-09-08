@@ -1,0 +1,112 @@
+<%- include('../navbar')%>
+    <div class="row mainarea">
+        <%- include('../left')%>
+            <div class="main col-md-9">
+                <ol class="breadcrumb">
+                    <li><a href="/home">首页</a></li>
+                    <li><a href="/home">文章列表</a></li>
+                    <li class="active">发布页</li>
+                </ol>
+                <!-- <button class="btn pull-right">发表</button> -->
+                <div class="myarticle">
+                    <form action="/postArt" method="post">
+                        <input value="<%= data[0].article_title%>" type="text" class="form-control art_title" placeholder="请输入文章标题...">
+                    </form>
+                    <div id="div1" class="toolbar">
+                    </div>
+                    <!-- <div style="padding: 5px 0; color: #ccc">中间隔离带</div> -->
+                    <div id="div2" class="text">
+                        <!--可使用 min-height 实现编辑区域自动增加高度-->
+                        <%- data[0].article_content%>
+                    </div>
+                </div>
+            </div>
+            <!-- 
+            <div class="art-iframe embed-responsive embed-responsive-16by9">
+                <iframe scrolling='auto' class="embed-responsive-item" src="./inner.html"></iframe>
+            </div> -->
+
+    </div>
+    <div class="func">
+        <ul>
+            <li class="post" title="确认修改">
+                <a href="">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-fabu"></use>
+                  </svg>
+                </a>
+            </li>
+
+            <li title="保存到草稿">
+                <a href="">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-caogaoxiang-"></use>
+                  </svg>
+                </a>
+            </li>
+            <li title="回到顶部">
+                <a href="">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-huidaodingbu1"></use>
+                  </svg>
+                </a>
+            </li>
+            <li id="houtai" title="后台管理">
+                <a href="">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-houtaishezhi"></use>
+                  </svg>
+                </a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <script src="/js/wangeditor.min.js"></script>
+    <script type="text/javascript">
+        var user;
+        if ($.cookie('user')) {
+            user = JSON.parse($.cookie('user'))
+            $('#beforeLogin').css('display', 'none')
+            $('#afterLogin').css('display', 'block')
+            $('.remember').prop('checked', true)
+            $('.my_avater').prop('src', user.user_profile_photo)
+            $('.user_info h4').text(user.user_nickname)
+        }
+        if (user.user_id == 0) {
+            $('#houtai').css('display', 'block')
+        }
+        var E = window.wangEditor
+        var editor = new E('#div1', '#div2') // 两个参数也可以传入 elem 对象，class 选择器
+        editor.create()
+        if (document.cookie) {
+            var user = JSON.parse($.cookie('user'))[0]
+            console.log(user);
+        }
+        $('.post').click(function() {
+            var title = $('.art_title').val();
+            var content = editor.txt.html()
+
+            $.ajax({
+                url: '/articles/edit',
+                method: 'post',
+                data: {
+                    pid: '<%= data[0].article_id%>',
+                    title: title,
+                    content: content,
+                },
+                success: function(r) {
+                    console.log(r);
+                    setTimeout(() => {
+                        location.href = '/home';
+                    }, 2000);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            })
+
+        })
+    </script>
+    </body>
+
+    </html>

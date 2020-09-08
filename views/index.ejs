@@ -1,0 +1,220 @@
+<%- include('navbar')%>
+    <div class="row mainarea">
+        <%- include('left')%>
+            <div class="main col-md-9">
+                <ol class="breadcrumb">
+                    <li><a href="/home">首页</a></li>
+                    <li><a href="/home">文章列表</a></li>
+                    <!-- <li class="active">Data</li> -->
+                </ol>
+                <!-- <button class="btn pull-right">发表</button> -->
+                <ul class="articles">
+                    <!-- <li>
+                        <h4 class="art_title">文章标题</h4>
+                        <p class="art_content">文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容</p>
+                        <p class="art_status">发表时间点赞评论浏览数</p>
+                    </li> -->
+                    <% console.log(data)%>
+                        <% for(var i=0;i<data.length;i++){%>
+                            <li style="position: relative;overflow: hidden;" data-aid=<%=data[i].article_id %> >
+                                <a style="display: block;text-decoration: none;" href="/articles?aid=<%=data[i].article_id%>">
+                                    <h4 class="art_title">
+                                        <%= data[i].article_title%>
+                                    </h4>
+                                    <% var cont=data[i].article_content.replace(/<\/?[^>]+>/g, "").substr(0,100)%>
+                                        <!-- ; XXX.replaceAll("<a>\s*|t|r|n</a>", ""); -->
+                                        <p style="display:block;height: 100px;overflow: hidden;" class="art_content">
+                                            <%- data[i].article_content %>
+                                        </p>
+                                        <p style="position: absolute;bottom: 20px;color:gray" class="art_status">
+                                            发布日期：
+                                            <%= data[i].article_date%>
+                                                浏览量：
+                                                <%= data[i].article_views%>
+                                                    点赞数：
+                                                    <%= data[i].article_like_count%>
+                                                        评论数：
+                                                        <%= data[i].article_comment_count%>
+
+                                        </p>
+                                </a>
+                                <a style="position: relative;top: 15px;" href="/articles/edit?aid=<%=data[i].article_id%>" class="edit" data-aid="<%=data[i].user_id%>">编辑</a>
+                            </li>
+
+                            <%}%>
+                </ul>
+            </div>
+            <!-- 
+            <div class="art-iframe embed-responsive embed-responsive-16by9">
+                <iframe scrolling='auto' class="embed-responsive-item" src="./inner.html"></iframe>
+            </div> -->
+
+    </div>
+    <div class="func">
+        <ul>
+            <li title="发布文章" class="post">
+                <a href="/postArt">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-fabu"></use>
+                  </svg></a>
+            </li>
+            <li title="上一页">
+                <a href="">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-shangyiye1"></use>
+                  </svg>
+                </a>
+            </li>
+            <li title="下一页">
+                <a href="">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-xiayiye"></use>
+                  </svg>
+                </a>
+            </li>
+            <li title="回到顶部">
+                <a href="">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-huidaodingbu"></use>
+                  </svg>
+                </a>
+            </li>
+            <li id="houtai" title="后台管理">
+                <a href="/houtai">
+                    <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-houtaishezhi"></use>
+                  </svg>
+                </a>
+            </li>
+        </ul>
+    </div>
+    </div>
+    <script>
+        var user;
+        if ($.cookie('user')) {
+            user = JSON.parse($.cookie('user'))
+            $('#beforeLogin').css('display', 'none')
+            $('#afterLogin').css('display', 'block')
+            $('.remember').prop('checked', true)
+            $('.my_avater').prop('src', user.user_profile_photo)
+            $('.user_info h4').text(user.user_nickname)
+        }
+        if (user.user_id == 0) {
+            $('#houtai').css('display', 'block')
+        }
+        $('.loginBtn').click(function() {
+            var url;
+            var username = $('[name=username]').val()
+            var userpwd = $('[name=userpwd]').val()
+            if (username.trim() != '' && userpwd.trim() != '') {
+                console.log($('.remember').prop('checked'));
+                if ($('.remember').prop('checked')) {
+                    url = '/loginlong'
+                } else {
+                    url = '/login'
+                }
+                $.ajax({
+                    url: url,
+                    method: 'post',
+                    data: {
+                        username: username,
+                        userpwd: userpwd
+                    },
+                    success: function(r) {
+                        if (r.code == 1) {
+                            $('#beforeLogin').css('display', 'none')
+                            $('#afterLogin').css('display', 'block')
+                            $('.user_info h4').text(r.data.user_nickname)
+                            $('.my_avater').attr('src', r.data.user_profile_photo)
+                        }
+
+                    },
+                    error: function(e) {
+                        console.log(e);
+                        console.log('异步请求失败');
+                    }
+                })
+            }
+        })
+        if (user) {
+            $(`[data-aid=${user.user_id}]`).css('display', 'block')
+        }
+        $('.logout').click(function() {
+
+            $('#beforeLogin').css('display', 'block')
+            $('#afterLogin').css('display', 'none')
+        })
+    </script>
+    <script>
+        // $('.articles').on('click', 'li', function() {
+        //     console.log($(this).data('aid'));
+        //     // $.ajax({
+        //     //     url: '/articles?aid=' + $(this).data('aid'),
+        //     //     method: 'get',
+        //     //     data: {
+        //     //         // username: username,
+        //     //         // userpwd: userpwd
+        //     //     },
+        //     //     success: function(r) {
+        //     //         console.log(r);
+
+        //     //     },
+        //     //     error: function(e) {
+        //     //         console.log(e);
+        //     //         console.log('异步请求失败');
+        //     //     }
+        //     // })
+        // })
+        // $('.loginBtn').click(function() {
+        //     alert('1')
+        //     var username = $('[name=username]').val()
+        //     var userpwd = $('[name=userpwd]').val()
+        //     if (username.trim() != '' && userpwd.trim() != '') {
+
+        //         $.ajax({
+        //             url: '/users/login',
+        //             method: 'post',
+        //             data: {
+        //                 username: username,
+        //                 userpwd: userpwd
+        //             },
+        //             success: function(r) {
+        //                 if (r.code == 1) {
+        //                     $('#beforeLogin').css('display', 'none')
+        //                     $('#afterLogin').css('display', 'block')
+        //                     $('.user_info h4').text(r.data.user_nickname)
+        //                 }
+
+        //             },
+        //             error: function(e) {
+        //                 console.log(e);
+        //                 console.log('异步请求失败');
+        //             }
+        //         })
+        //     }
+        // })
+
+        var coun = ['富强', '民主', '文明', '和谐', '自由', '平等', '公正', '法治', '爱国', '敬业', '诚信', '友善'];
+        $('document,html').on({
+            click: function(e) {
+                var span = $('<span></span>')
+                span.html(coun[parseInt(Math.random() * 16)]);
+                span.addClass('conpart')
+                $('body').append(span);
+                $('.conpart').css({
+                    top: e.clientY,
+                    left: e.clientX
+                })
+                $('.conpart').animate({
+                    top: e.clientY - 50,
+                    opacity: 0
+                }, 500)
+                setTimeout(() => {
+                    $('.compart').remove()
+                }, 1000);
+            }
+        })
+    </script>
+    </body>
+
+    </html>

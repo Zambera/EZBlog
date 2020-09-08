@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button class="getBtn">GET请求</button>
+    <button class="postBtn">post请求</button>
+    <button class="delBtn">delete请求</button>
+    <button class="putBtn">put请求</button>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script>
+        $(function() {
+            $('.getBtn').click(function() {
+                axios.get('/role')
+                    .then((res) => {
+                        console.log(res);
+                    }).catch((err) => {
+                        console.log(err);
+                    })
+            })
+            $('.postBtn').click(function() {
+                axios.post('/role', {
+                    roleName: '超人',
+                    desc: 'superman'
+                }).then((res) => {
+                    console.log(res);
+                }).catch((err) => {
+                    console.log(err);
+                })
+            })
+            $('.delBtn').click(function() {
+                axios.delete('/role/1')
+                    .then((res) => {
+                        console.log(res);
+                    }).catch((err) => {
+                        console.log(err);
+                    })
+            })
+            $('.putBtn').click(function() {
+                axios({
+                    url: '/role',
+                    method: 'put',
+                    data: {
+                        id: 1,
+                        roleName: 'Xzhan',
+                        desc: 'wui'
+                    }
+                }).then((r) => {
+                    console.log(r);
+                }).catch((err) => {
+                    console.log(err);
+                })
+            })
+
+            // $('.putBtn').click(function() {
+            //     axios.put('/role', {
+            //         roleName: '超人',
+            //         desc: 'superman'
+            //     }).then((res) => {
+            //         console.log(res);
+            //     }).catch((err) => {
+            //         console.log(err);
+            //     })
+            // })
+
+        })
+    </script>
+</body>
+
+</html>
